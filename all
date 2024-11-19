@@ -1,0 +1,155 @@
+
+//
+//  main.cpp
+//  merge
+//
+//  Created by Abdulla on 11/9/24.
+//
+
+#include <iostream>
+using namespace std;
+
+void mergsort(int array[],int first,int last);
+void merg(int array[],int left,int mid,int right);
+
+
+int main(int argc, const char * argv[]) {
+
+    int arr[] = {9,7,6,5,3,21,1,0};
+    
+    cout<<"before sort: ";
+    for(int i = 0; i < 8; i++){
+        cout<<arr[i]<<" ";
+    }cout<<endl;
+    
+    //mergsort will be here
+    mergsort(arr,0,7);
+    
+    
+    cout<<"after sort: ";
+    for(int i = 0; i < 8; i++){
+        cout<<arr[i]<<" ";
+    }cout<<endl;
+    
+    return 0;
+}
+
+
+
+// void sorting(int arr[],int length){
+    //
+    //            insertion sort
+    //
+    //    for(int i = 1; i < length; i++)
+    //    {
+    //        int key = arr[i];
+    //        int j = i - 1;
+    //
+    //        while( j >= 0 && arr[j] > key ){
+    //            arr[j + 1] = arr[j];
+    //            j = j - 1;
+    //        }
+    //        arr[j+1] = key;
+    //    }
+    
+    //
+    
+    
+    //                selection sort
+    
+    //    for(int i = 0; i < length; i++){
+    //
+    //        int min = i;
+    //        for(int j = i + 1; j < length; j++){
+    //            if(arr[j] < arr[min]){
+    //                min = j;
+    //            }
+    //        }
+    //        if( min != i){
+    //            int temp = arr[i];
+    //            arr[i] = arr[min];
+    //            arr[min] = temp;
+    //        }
+    //    }
+    //
+//}
+
+
+
+
+            // Merge Sort
+void mergsort(int array[],int first,int last){
+    
+    if(first < last){
+        
+        int mid = (first + last) / 2;
+        
+        mergsort(array,first, mid);
+        mergsort(array,mid+1,last);
+        merg(array,first,mid,last);
+    }
+}
+
+void merg(int array[],int left,int mid,int right){
+    
+    int i = left;
+    int j = mid + 1;
+    int k = left;
+    
+    int temp[8];
+    
+    while(i <= mid && j <= right){
+        if(array[i] < array[j]){
+            temp[k] = array[i];
+            i++;
+            k++;
+        }
+        else{
+            temp[k] = array[j];
+            j++;
+            k++;
+            
+        }
+    }
+    
+    while(i <= mid){
+        temp[k] = array[i];
+        i++;
+        k++;
+    }
+    
+    while(j <= right){
+        
+        temp[k] = array[j];
+        j++;
+        k++;
+    }
+    
+    for(int a = left; a <= right; a++){
+         array[a] = temp[a];
+    }
+}
+
+
+
+// Example visualization of the merge sort algorithm:
+//
+//          [38, 27, 43, 3, 9, 82, 10]
+//                     /   \
+//       [38, 27, 43, 3]   [9, 82, 10]
+//        /         |         |      \
+//   [38, 27]    [43, 3]   [9, 82]   [10]
+//    /   |      /    |    /    \      |
+// [38]  [27]  [43]  [3]  [9]   [82]  [10]
+//    \  /       \   /     \     /     |
+//   [27, 38]    [3, 43]   [9, 82]    [10]
+//       \         /          \        /
+//     [3, 27, 38, 43]        [9, 10, 82]
+//           \                  /
+//          [3, 9, 10, 27, 38, 43, 82]
+//
+// The array is first broken up into progressively smaller unsorted portions of
+// the array, and once we have "sub-arrays" of 1 element they are by definition
+// sorted arrays.  From here the "sorted arrays" are merged together until we
+// arrive at the complete sorted array.
+//
